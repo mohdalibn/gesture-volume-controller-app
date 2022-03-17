@@ -1,5 +1,5 @@
 /* Importing Roboto font from Google CDN */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
 
 /* Common CSS code */
@@ -16,8 +16,63 @@ body {
 
 body {
     background: #000;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     position: relative;
     width: 1000px;
     height: 700px;
+}
+
+/* CSS for App Title */
+.app-title {
+    position: absolute;
+    width: 660px;
+    height: 62px;
+    left: 19px;
+    top: 10px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 45px;
+    color: #FFFFFF;
+}
+
+/* CSS for Video Window */
+.video-window {
+    position: absolute;
+    width: 660px;
+    height: 480px;
+    left: 19px;
+    top: 60px;
+    background: #BFAED2;
+    border-radius: 10px;
+}
+
+/* CSS for Webcam OFF Text */
+.webcam-off-text {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px;
+    position: absolute;
+    width: 504px;
+    height: 67px;
+    left: 97px;
+    top: 272px;
+}
+
+.webcam-off-text h1 {
+    position: static;
+    width: 484px;
+    height: 47px;
+    left: 10px;
+    top: 10px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 38px;
+    line-height: 47px;
+    color: #433D3D;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 0px 10px;
 }
