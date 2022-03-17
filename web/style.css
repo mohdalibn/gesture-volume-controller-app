@@ -15,12 +15,18 @@ body {
 }
 
 body {
-    background: #000;
     font-family: 'Roboto', sans-serif;
+
+}
+
+/* CSS for Main Frame Container */
+.frame-container {
     position: relative;
     width: 1000px;
     height: 700px;
+    background: #000;
 }
+
 
 /* CSS for App Title */
 .app-title {
@@ -143,4 +149,15 @@ body {
     font-size: 40px;
     line-height: 47px;
     color: #000000;
+}
+
+/* CSS for Side Panel Background */
+.side-panel-bg {
+    position: absolute;
+    width: 288px;
+    height: 670px;
+    left: 696px;
+    top: 10px;
+    background: #A763F6;
+    border-radius: 20px;
 }

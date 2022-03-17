@@ -12,32 +12,44 @@
 </head>
 <body>
 
-    <!-- App Title -->
-    <div class="app-title">GESTURE VOLUME CONTROLLER APP</div>
+    <div class="frame-container">
 
-    <!-- Video Window -->
-    <div class="video-window"></div>
+        <!-- App Title -->
+        <div class="app-title">GESTURE VOLUME CONTROLLER APP</div>
 
-    <!-- Webcam OFF Text -->
-    <div class="webcam-off-text">
-        <h1>Webcam input is turned off</h1>
-    </div>
+        <!-- Video Window -->
+        <div class="video-window"></div>
 
-    <!-- Volume Title -->
-    <div class="volume-title">SYSTEM VOLUME BAR INDICATOR</div>
+        <!-- Webcam OFF Text -->
+        <div class="webcam-off-text">
+            <h1>Webcam input is turned off</h1>
+        </div>
 
-    <!-- Volume Bar Container -->
-    <div class="vol-container">
-        
-        <div class="volume-slider">
-            <input type="range" min="0" max="100" value="50"> 
-         </div>
-  
-        <div class="volume-value">100</div>
+        <!-- Volume Title -->
+        <div class="volume-title">SYSTEM VOLUME BAR INDICATOR</div>
+
+        <!-- Volume Bar Container -->
+        <div class="vol-container">
+            
+            <!-- Volume Slider Container -->
+            <div class="volume-slider">
+
+                <!-- Volume Slider Input Range -->
+                <input type="range" min="0" max="100" value="50"> 
+            </div>
+    
+            <!-- Volume Number Value -->
+            <div class="volume-value">100</div>
+
+        </div>
+
+        <!-- Side Panel Background -->
+        <div class="side-panel-bg"></div>
 
     </div>
 
     
+
     <!-- Linking the eel.js file -->
     <script src="eel.js"></script>
 
