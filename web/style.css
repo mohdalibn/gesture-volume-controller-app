@@ -272,3 +272,59 @@ body {
 .ypos2 {
     top: 490px;
 }
+
+/* CSS for Follow on Github */
+.follow-gh {
+    position: absolute;
+    width: 260px;
+    height: 46.35px;
+    left: 709px;
+    top: 567px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 33.913px;
+    line-height: 40px;
+    color: #000000;
+}
+
+/* CSS For Github Button */
+.gh-button {
+    position: absolute;
+    width: 267px;
+    height: 59.22px;
+    left: 707px;
+    top: 614px;
+    background: #000000;
+    border-radius: 20.0752px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+/* CSS For Github Button h3 */
+.gh-button h3 {
+    width: 171.64px;
+    height: 34.13px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30.1128px;
+    line-height: 35px;
+    color: #FFFFFF;
+}
+
+/* CSS For Github Button Img */
+.gh-button img {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s;
+}
+
+.gh-button:hover img {
+    display: inline-block;
+    visibility: visible;
+    opacity: 1;
+}
