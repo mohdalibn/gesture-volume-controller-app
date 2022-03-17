@@ -6,3 +6,6 @@
     Github : github.com/mohdalibn
 
 """
+
+# Importing the required libraries for the project
+import eel
