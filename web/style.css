@@ -16,7 +16,6 @@ body {
 
 body {
     font-family: 'Roboto', sans-serif;
-
 }
 
 /* CSS for Main Frame Container */
@@ -26,7 +25,6 @@ body {
     height: 700px;
     background: #000;
 }
-
 
 /* CSS for App Title */
 .app-title {
@@ -214,4 +212,63 @@ body {
     height: 59px;
     left: 707px;
     top: 110px;
+}
+
+/* CSS for Stat Board Background */
+.stat-board-bg {
+    position: absolute;
+    width: 266px;
+    height: 362px;
+    left: 707px;
+    top: 187px;
+    background: #000000;
+    border-radius: 20px;
+}
+
+/* CSS for Statistics Title */
+.stat-title {
+    position: absolute;
+    width: 191px;
+    height: 34px;
+    left: 746px;
+    top: 204px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 40px;
+    color: #A763F6;
+}
+
+/* CSS for individual stats */
+
+.single-stat {
+    position: absolute;
+    width: 206px;
+    height: 34px;
+    left: 736px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 35px;
+    color: #FFFFFF;
+}
+
+.fps {
+    top: 253px;
+}
+
+.xpos1 {
+    top: 312px;
+}
+
+.ypos1 {
+    top: 371px;
+}
+
+.xpos2 {
+    top: 430px;
+}
+
+.ypos2 {
+    top: 490px;
 }

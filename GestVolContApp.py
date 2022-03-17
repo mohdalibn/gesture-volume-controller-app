@@ -17,4 +17,5 @@ if __name__ == '__main__':
     eel.init("web")
 
     # Starting the eel App with index.html file and the window size
-    eel.start('index.html', size=(1015, 750))
+    eel.start('index.html', size=(1015, 750), options={
+              'chromeFlags': ['--disable-http-cache']}, suppress_error=True)
