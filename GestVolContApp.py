@@ -17,4 +17,4 @@ if __name__ == '__main__':
     eel.init("web")
 
     # Starting the eel App with index.html file and the window size
-    eel.start('index.html', size=(1000, 740))
+    eel.start('index.html', size=(1000, 750))

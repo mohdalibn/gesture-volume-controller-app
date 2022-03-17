@@ -90,3 +90,57 @@ body {
     line-height: 45px;
     color: #FFFFFF;
 }
+
+/* CSS for Volume Container */
+.vol-container {
+    position: absolute;
+    width: 660px;
+    height: 86px;
+    left: 19px;
+    top: 594px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* CSS for the Volume Slider Container */
+.volume-slider {
+    height: 40px;
+    width: 520px;
+    display: flex;
+    align-items: center;
+}
+
+/* CSS for the Volume Slider Input Range */
+.volume-slider input {
+    height: 5px;
+    width: 100%;
+    -webkit-appearance: none;
+    outline: none;
+    border-radius: 20px;
+    background-color: #000;
+}
+
+/* CSS for the Volume Slider Input Range Thumb*/
+.volume-slider input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 46px;
+    width: 27px;
+    border: 5px solid #000;
+    border-radius: 91px;
+    background: #A763F6;
+}
+
+/* CSS for the Volume Number Value */
+.volume-value {
+    width: 55px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 47px;
+    color: #000000;
+}
