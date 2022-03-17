@@ -161,3 +161,57 @@ body {
     background: #A763F6;
     border-radius: 20px;
 }
+
+/* CSS for Button Class */
+.button {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #3A2D80;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 35px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+    transition: background 0.3s;
+}
+
+/* CSS for Webcam Img */
+.button img {
+    transition: transform 0.3s;
+}
+
+.button:hover {
+    border: 2px solid black;
+    background: transparent;
+}
+
+.button:hover img {
+    transform: translateX(5px);
+}
+
+/* CSS for Open Webcam */
+.open-webcam {
+    position: absolute;
+    width: 266px;
+    height: 59px;
+    left: 707px;
+    top: 31px;
+}
+
+/* CSS for Close Webcam */
+.close-webcam {
+    position: absolute;
+    width: 266px;
+    height: 59px;
+    left: 707px;
+    top: 110px;
+}
