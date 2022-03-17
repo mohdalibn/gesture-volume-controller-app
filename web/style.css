@@ -16,4 +16,8 @@ body {
 
 body {
     background: #000;
+    font-family: "Roboto", sans-serif;
+    position: relative;
+    width: 1000px;
+    height: 700px;
 }
