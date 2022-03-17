@@ -56,23 +56,37 @@ body {
     position: absolute;
     width: 504px;
     height: 67px;
-    left: 97px;
+    left: 92px;
     top: 272px;
 }
 
 .webcam-off-text h1 {
     position: static;
-    width: 484px;
+    width: 490px;
     height: 47px;
     left: 10px;
     top: 10px;
     font-style: normal;
     font-weight: 500;
-    font-size: 38px;
+    font-size: 40px;
     line-height: 47px;
     color: #433D3D;
     flex: none;
     order: 0;
     flex-grow: 0;
     margin: 0px 10px;
+}
+
+/* CSS for Volume Title */
+.volume-title {
+    position: absolute;
+    width: 600px;
+    height: 45px;
+    left: 47px;
+    top: 549px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 45px;
+    color: #FFFFFF;
 }
