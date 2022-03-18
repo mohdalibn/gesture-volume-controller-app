@@ -25,8 +25,13 @@ import time
 # Default Webcam Variable Value to Start the App
 Webcam = None
 
+# Variables to store the current time and the previous time (To Calculate the FPS)
+CurrTime = 0
+PrevTime = 0
 
 # Creating a class for the OpenCV Webcam Input
+
+
 class OpenWebcam(object):
     def __init__(self):  # Init Method
         # Getting the User's Webcam Video Input Using OpenCV
@@ -36,20 +41,24 @@ class OpenWebcam(object):
         self.VidWidth = self.CamVideo.set(3, 660)
         self.VidHeight = self.CamVideo.set(4, 480)
 
-        # Variables to store the current time and the previous time (To Calculate the FPS)
-        self.CurrTime = 0
-        self.PrevTime = 0
+        # Creating an object from the Hand Tracking class with a detection confidence of 70%
+        self.Tracker = Htl.HandTracker(DetectionConfidence=0.7)
 
     def GetFrame(self):  # Method to get the individual frames of the Video
+        global CurrTime, PrevTime
         success, frame = self.CamVideo.read()
 
         if success:
+
+            # Detecting the presence of a hand
+            frame = self.Tracker.Detect_hands(frame)
+
             _, jpegFrame = cv2.imencode('.jpg', frame)
 
             # Calculating the fps
-            self.CurrTime = time.time()
-            FPS = 1 // (self.CurrTime - self.PrevTime)
-            self.PrevTime = self.CurrTime
+            CurrTime = time.time()
+            FPS = 1 // (CurrTime - PrevTime)
+            PrevTime = CurrTime
 
             return FPS, jpegFrame.tobytes()
 
