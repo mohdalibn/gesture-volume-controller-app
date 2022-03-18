@@ -27,6 +27,27 @@ from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
+# Initializations from the pycaw library
+devices = AudioUtilities.GetSpeakers()
+interface = devices.Activate(
+    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+volume = cast(interface, POINTER(IAudioEndpointVolume))
+
+SysVol = math.ceil(volume.GetMasterVolumeLevel())
+print(SysVol)
+
+OldMin = -65
+OldMax = 0
+NewMin = 0
+NewMax = 100
+OldValue = -7
+
+OldRange = (OldMax - OldMin)
+NewRange = (NewMax - NewMin)
+NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+NewValue = math.floor(NewValue)
+print(NewValue)
+
 
 # Default Webcam Variable Value to Start the App
 Webcam = None
