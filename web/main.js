@@ -27,7 +27,7 @@ function OpenVideo(){
     // Setting the Display of the Image Window to Block
     ImageWindow.style.display="block";
 
-    // Calling the DisplayVideo() function from the Python File
+    // Calling the DisplayVideo() function in the Python File
     eel.DisplayVideo()()
 
     // // Setting the Visibility of the Image Window to Visible
@@ -45,6 +45,9 @@ function CloseVideo(){
 
     // Setting the Display of the Image Window to None
     ImageWindow.style.display="none";
+
+    // Calling the CloseWebcam() function in the Python File
+    eel.CloseWebcam()()
 
     // // Setting the Visibility of the Image Window to Hidden
     // ImageWindow.style.visibility="hidden";
