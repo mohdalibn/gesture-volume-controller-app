@@ -49,9 +49,37 @@ class OpenWebcam(object):
         success, frame = self.CamVideo.read()
 
         if success:
-
             # Detecting the presence of a hand
             frame = self.Tracker.Detect_hands(frame)
+
+            # Storing all the landmark positions of all the hand in a list
+            LndmrkList = self.Tracker.Find_Landmark_Position(frame, draw=False)
+
+            if len(LndmrkList) != 0:
+                # The center coords of both the thumb and the index finger
+                center_x1 = LndmrkList[4][1]
+                center_y1 = LndmrkList[4][2]
+
+                center_x2 = LndmrkList[8][1]
+                center_y2 = LndmrkList[8][2]
+
+                # Calculating the center of the line between the fingers
+                LineCenter_x = (center_x1 + center_x2) // 2
+                LineCenter_y = (center_y1 + center_y2) // 2
+
+                # Drawing the filled circles around the center of the tips of the fingers
+                cv2.circle(frame, (center_x1, center_y1),
+                           8, (255, 0, 0), cv2.FILLED)
+                cv2.circle(frame, (center_x2, center_y2),
+                           8, (255, 0, 0), cv2.FILLED)
+
+                # Drawing a line between the fingers
+                cv2.line(frame, (center_x1, center_y1),
+                         (center_x2, center_y2), (255, 0, 0), 3)
+
+                # Drawing a circle in the center of the line
+                cv2.circle(frame, (LineCenter_x, LineCenter_y),
+                           8, (255, 0, 0), cv2.FILLED)
 
             _, jpegFrame = cv2.imencode('.jpg', frame)
 
