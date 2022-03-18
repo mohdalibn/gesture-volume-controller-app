@@ -8,7 +8,11 @@
 """
 
 # Importing the required libraries for the project
+import HandTrackingLibrary as Htl
 from tkinter import Tk, messagebox
+import mediapipe as mp
+import numpy as np
+import math
 import eel
 import cv2
 import sys
