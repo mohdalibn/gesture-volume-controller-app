@@ -17,6 +17,7 @@ import base64
 import os
 
 
+# This function Displays the Error Message to the User using a Tkinter Window
 def ThrowError(ErrorTitle, ErrorMsg):
     # This function will initialize a tkinter window to display the error message incase the eel App fails to load
     root = Tk()
@@ -50,7 +51,7 @@ def GestureVolumeControllerApp():
         # Error message for displaying purpose
         ErrorMsg = 'There was a problem while loading the EEL App.'
 
-        #
+        # Formatting the Error Message
         logging.error('{}\n{}'.format(ErrorMsg, e.args))
 
         # Calling the ThrowError Function to display the error message box to the User
