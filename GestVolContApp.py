@@ -33,6 +33,28 @@ class OpenWebcam(object):
         self.CamVideo.release()
 
 
+# This function creates a generator for all the video frames
+def GenerateFrames():
+    pass
+
+
+# function that updates the Video Frames in the App
+@eel.expose
+def DisplayVideo():
+    # Creating an instance of the OpenWebcam class
+    Webcam = OpenWebcam()
+
+    # Calling the GenerateFrames() function
+    VideoFrames = GenerateFrames(Webcam)
+
+    for SingleFrame in VideoFrames:
+
+        # for all the single frames in video frames, we are converting the frames from Bytes to base64 Encoded String.
+        frame = base64.b64encode(SingleFrame)
+        frame = frame.decode("utf-8")
+        eel.UpdateVideoScreen(frame)()
+
+
 # This function Displays the Error Message to the User using a Tkinter Window
 def ThrowError(ErrorTitle, ErrorMsg):
     # This function will initialize a tkinter window to display the error message incase the eel App fails to load
