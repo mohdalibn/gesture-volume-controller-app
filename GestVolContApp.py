@@ -17,6 +17,22 @@ import base64
 import os
 
 
+# Creating a class for the OpenCV Webcam Input
+class OpenWebcam(object):
+    # Init Method
+    def __init__(self):
+        # Getting the User's Webcam Video Input Using OpenCV
+        self.CamVideo = cv2.VideoCapture(0)
+
+    def GetFrame(self):  # Method to get the individual frames of the Video
+        _, frame = self.CamVideo.read()
+        _, jpegFrame = cv2.imencode('.jpg', frame)
+        return jpegFrame.tobytes()
+
+    def __del__(self):  # Method to close the Webcam Video Stream
+        self.CamVideo.release()
+
+
 # This function Displays the Error Message to the User using a Tkinter Window
 def ThrowError(ErrorTitle, ErrorMsg):
     # This function will initialize a tkinter window to display the error message incase the eel App fails to load
