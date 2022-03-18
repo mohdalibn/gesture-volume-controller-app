@@ -29,6 +29,10 @@ function OpenVideo(){
 
     // Calling the DisplayVideo() function from the Python File
     eel.DisplayVideo()()
+
+    // // Setting the Visibility of the Image Window to Visible
+    // ImageWindow.style.visibility="visible";
+
 }
 
 eel.expose(UpdateVideoScreen);
@@ -41,6 +45,9 @@ function CloseVideo(){
 
     // Setting the Display of the Image Window to None
     ImageWindow.style.display="none";
+
+    // // Setting the Visibility of the Image Window to Hidden
+    // ImageWindow.style.visibility="hidden";
 
     // Removing the Video WIndow Border When the User closes the webcam
     VideoWindow.style.border = "none";
