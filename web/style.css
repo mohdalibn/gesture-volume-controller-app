@@ -317,14 +317,9 @@ body {
 
 /* CSS For Github Button Img */
 .gh-button img {
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0.3s, opacity 0.3s;
+    transition: transform 0.3s;
 }
 
 .gh-button:hover img {
-    display: inline-block;
-    visibility: visible;
-    opacity: 1;
+    transform: translateX(5px);
 }
