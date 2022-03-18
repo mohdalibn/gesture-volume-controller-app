@@ -36,8 +36,13 @@ function OpenVideo(){
 }
 
 eel.expose(UpdateVideoScreen);
-function UpdateVideoScreen(Value){
-    ImageWindow.src = "data:image/jpeg;base64," + Value;
+function UpdateVideoScreen(Fps, Frame){
+    ImageWindow.src = "data:image/jpeg;base64," + Frame;
+
+    // Converting the Numeric FPS into a String
+    var FPS = Fps.toString();
+    // Updating the InnerHTML of the FPS counter text
+    document.querySelector('.fps').innerHTML = "FPS: " + FPS;
 
 }
 
@@ -57,4 +62,7 @@ function CloseVideo(){
 
     // Setting the Display of the Webcam OFF Text to Block
     VideoText.style.display="block";
+
+    document.querySelector('.fps').innerHTML = "FPS: 0";
+
 }

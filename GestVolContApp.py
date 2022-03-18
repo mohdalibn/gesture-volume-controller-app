@@ -15,14 +15,14 @@ import sys
 import logging
 import base64
 import os
+import time
 
 
-#
+# Default Webcam Variable Value to Start the App
 Webcam = None
 
+
 # Creating a class for the OpenCV Webcam Input
-
-
 class OpenWebcam(object):
     def __init__(self):  # Init Method
         # Getting the User's Webcam Video Input Using OpenCV
@@ -32,15 +32,26 @@ class OpenWebcam(object):
         self.VidWidth = self.CamVideo.set(3, 660)
         self.VidHeight = self.CamVideo.set(4, 480)
 
+        # Variables to store the current time and the previous time (To Calculate the FPS)
+        self.CurrTime = 0
+        self.PrevTime = 0
+
     def GetFrame(self):  # Method to get the individual frames of the Video
         success, frame = self.CamVideo.read()
 
         if success:
             _, jpegFrame = cv2.imencode('.jpg', frame)
-            return jpegFrame.tobytes()
+
+            # Calculating the fps
+            self.CurrTime = time.time()
+            FPS = 1 // (self.CurrTime - self.PrevTime)
+            self.PrevTime = self.CurrTime
+
+            return FPS, jpegFrame.tobytes()
 
         else:
-            return None
+            # Here, we return 0 FPS and None Frame
+            return 0, None
 
     # Method to Close the Webcam Video Feed
     def CloseVideo(self):
@@ -53,10 +64,10 @@ class OpenWebcam(object):
 # This function creates a generator for all the video frames
 def GenerateFrames(Webcam):
     while True:
-        singleframe = Webcam.GetFrame()
+        fps, singleframe = Webcam.GetFrame()
 
         if singleframe != None:
-            yield singleframe
+            yield fps, singleframe
 
         else:
             break
@@ -75,12 +86,12 @@ def DisplayVideo():
         # Calling the GenerateFrames() function
         VideoFrames = GenerateFrames(Webcam)
 
-        for SingleFrame in VideoFrames:
+        for Fps, SingleFrame in VideoFrames:
 
             # for all the single frames in video frames, we are converting the frames from Bytes to base64 Encoded String.
             frame = base64.b64encode(SingleFrame)
             frame = frame.decode("utf-8")
-            eel.UpdateVideoScreen(frame)()
+            eel.UpdateVideoScreen(Fps, frame)()
 
     else:
         # Displays text on the terminal when the Open Webcam button is spammed
