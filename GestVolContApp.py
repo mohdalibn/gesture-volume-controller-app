@@ -33,9 +33,14 @@ class OpenWebcam(object):
         self.VidHeight = self.CamVideo.set(4, 480)
 
     def GetFrame(self):  # Method to get the individual frames of the Video
-        _, frame = self.CamVideo.read()
-        _, jpegFrame = cv2.imencode('.jpg', frame)
-        return jpegFrame.tobytes()
+        success, frame = self.CamVideo.read()
+
+        if success:
+            _, jpegFrame = cv2.imencode('.jpg', frame)
+            return jpegFrame.tobytes()
+
+        else:
+            return None
 
     # Method to Close the Webcam Video Feed
     def CloseVideo(self):
@@ -49,35 +54,51 @@ class OpenWebcam(object):
 def GenerateFrames(Webcam):
     while True:
         singleframe = Webcam.GetFrame()
-        yield singleframe
+
+        if singleframe != None:
+            yield singleframe
+
+        else:
+            break
 
 
 # function that updates the Video Frames in the App
 @eel.expose
 def DisplayVideo():
     global Webcam
-    # Creating an instance of the OpenWebcam class
-    Webcam = OpenWebcam()
 
-    # Calling the GenerateFrames() function
-    VideoFrames = GenerateFrames(Webcam)
+    # This if statement acts as a Button Spam Filter
+    if Webcam is None:
+        # Creating an instance of the OpenWebcam class
+        Webcam = OpenWebcam()
 
-    for SingleFrame in VideoFrames:
+        # Calling the GenerateFrames() function
+        VideoFrames = GenerateFrames(Webcam)
 
-        # for all the single frames in video frames, we are converting the frames from Bytes to base64 Encoded String.
-        frame = base64.b64encode(SingleFrame)
-        frame = frame.decode("utf-8")
-        eel.UpdateVideoScreen(frame)()
+        for SingleFrame in VideoFrames:
 
+            # for all the single frames in video frames, we are converting the frames from Bytes to base64 Encoded String.
+            frame = base64.b64encode(SingleFrame)
+            frame = frame.decode("utf-8")
+            eel.UpdateVideoScreen(frame)()
+
+    else:
+        pass
 
 # Function that closes the Webcam Video Stream
+
+
 @eel.expose
 def CloseWebcam():
     global Webcam
 
-    # Releasing the Webcam using OpenCV
-    Webcam.CloseVideo()
-    Webcam = None
+    # This if statement acts as a Button Spam Filter
+    if Webcam is not None:
+        # Releasing the Webcam using OpenCV
+        Webcam.CloseVideo()
+        Webcam = None
+    else:
+        pass
 
 # This function Displays the Error Message to the User using a Tkinter Window
 
