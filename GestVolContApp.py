@@ -19,8 +19,7 @@ import os
 
 # Creating a class for the OpenCV Webcam Input
 class OpenWebcam(object):
-    # Init Method
-    def __init__(self):
+    def __init__(self):  # Init Method
         # Getting the User's Webcam Video Input Using OpenCV
         self.CamVideo = cv2.VideoCapture(0)
 
@@ -34,8 +33,10 @@ class OpenWebcam(object):
 
 
 # This function creates a generator for all the video frames
-def GenerateFrames():
-    pass
+def GenerateFrames(Webcam):
+    while True:
+        singleframe = Webcam.GetFrame()
+        yield singleframe
 
 
 # function that updates the Video Frames in the App
