@@ -23,6 +23,10 @@ class OpenWebcam(object):
         # Getting the User's Webcam Video Input Using OpenCV
         self.CamVideo = cv2.VideoCapture(0)
 
+        # Setting the Width and Height of the Video Window
+        self.VidWidth = self.CamVideo.set(3, 660)
+        self.VidHeight = self.CamVideo.set(4, 480)
+
     def GetFrame(self):  # Method to get the individual frames of the Video
         _, frame = self.CamVideo.read()
         _, jpegFrame = cv2.imencode('.jpg', frame)

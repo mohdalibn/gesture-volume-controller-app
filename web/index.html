@@ -18,7 +18,12 @@
         <div class="app-title">GESTURE VOLUME CONTROLLER APP</div>
 
         <!-- Video Window -->
-        <div class="video-window"></div>
+        <div class="video-window" id="VidWindow">
+
+            <!-- Image Window -->
+            <img class="image-window" id="ImgWindow" src="" alt="">
+
+        </div>
 
         <!-- Webcam OFF Text -->
         <div class="webcam-off-text">
@@ -47,10 +52,10 @@
         <div class="side-panel-bg"></div>
 
         <!-- Open Webcam -->
-        <button class="open-webcam button" type="button" onclick="hideText()"> <h3>Open Webcam</h3> <img src="webcam.png" alt=""></button>
+        <button class="open-webcam button" type="button" onclick="OpenVideo()"> <h3>Open Webcam</h3> <img src="webcam.png" alt=""></button>
 
         <!-- Close Webcam -->
-        <button class="close-webcam button" type="button" onclick="showText()"> <h3>Close Webcam</h3> <img src="webcam.png" alt=""></button>
+        <button class="close-webcam button" type="button" onclick="CloseVideo()"> <h3>Close Webcam</h3> <img src="webcam.png" alt=""></button>
 
 
         <!-- Statistics Board Background -->

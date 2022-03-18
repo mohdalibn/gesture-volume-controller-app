@@ -51,6 +51,13 @@ body {
     border-radius: 10px;
 }
 
+.video-window .image-window {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    display: none;
+}
+
 /* CSS for Webcam OFF Text */
 .webcam-off-text {
     display: flex;
