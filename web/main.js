@@ -6,6 +6,14 @@ const slider = document.querySelector("input");
 const value = document.querySelector(".volume-value");
 
 
+eel.SendVol()()
+eel.expose(SetVolume)
+function SetVolume(Vol){
+    Vol = Vol.toString()
+    slider.value = Vol;
+    value.textContent = slider.value;
+}
+
 value.textContent = slider.value;
 
 slider.oninput = function(){

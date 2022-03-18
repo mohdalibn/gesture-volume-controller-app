@@ -49,6 +49,12 @@ NewValue = math.floor(NewValue)
 print(NewValue)
 
 
+@eel.expose
+def SendVol():
+    global NewValue
+    eel.SetVolume(NewValue)()
+
+
 # Default Webcam Variable Value to Start the App
 Webcam = None
 
