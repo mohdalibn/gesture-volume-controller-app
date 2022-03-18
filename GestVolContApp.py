@@ -21,6 +21,12 @@ import base64
 import os
 import time
 
+# library and its flies for controlling the volume
+import pycaw
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
 
 # Default Webcam Variable Value to Start the App
 Webcam = None
