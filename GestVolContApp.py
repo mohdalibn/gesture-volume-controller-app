@@ -83,7 +83,8 @@ def DisplayVideo():
             eel.UpdateVideoScreen(frame)()
 
     else:
-        pass
+        # Displays text on the terminal when the Open Webcam button is spammed
+        print("Do Not Spam The Button!")
 
 # Function that closes the Webcam Video Stream
 
@@ -98,7 +99,8 @@ def CloseWebcam():
         Webcam.CloseVideo()
         Webcam = None
     else:
-        pass
+        # Displays text on the terminal when the Close Webcam button is spammed
+        print("Do Not Spam The Button!")
 
 # This function Displays the Error Message to the User using a Tkinter Window
 
