@@ -8,7 +8,13 @@
 """
 
 # Importing the required libraries for the project
+from tkinter import Tk, messagebox
 import eel
+import cv2
+import sys
+import logging
+import base64
+import os
 
 
 if __name__ == '__main__':
