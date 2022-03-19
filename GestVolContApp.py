@@ -60,8 +60,8 @@ SystemVolume = math.floor(SystemVolume * 100)
 
 # This function updates the Display Volume according to the System Volume
 @eel.expose
-def SendVol():
-    eel.SetVolume(SystemVolume)()
+def SendVol(VolValue=SystemVolume):
+    eel.SetVolume(VolValue)()
 
 
 # Creating a class for the OpenCV Webcam Input
@@ -122,7 +122,7 @@ class OpenWebcam(object):
                 # Calculating the length of the line
                 LineLength = math.hypot(
                     center_x2 - center_x1, center_y2 - center_y1)
-                print(LineLength)
+                # print(LineLength)
                 # In my case, the avg minimum distance between the fingers was 24 and the avg maximum was 165
 
                 # Coverting the line length range into the volume range using numpy
@@ -130,7 +130,15 @@ class OpenWebcam(object):
                                    MinVolume, MaxVolume])
 
                 # Sending the level of the volume to control it
-                volume.SetMasterVolumeLevel(Volume, None)
+
+                # This volume convertion is for the percentage displays
+                VolumePercentage = np.interp(LineLength, [24, 165], [0, 100])
+
+                # Sets the Main System Volume Level According the Length of the Line between the thumb and the index finger
+                volume.SetMasterVolumeLevelScalar(VolumePercentage / 100, None)
+
+                # Calling the SendVol Function to Updated the Volume Bar Indicator on the App
+                SendVol(VolValue=VolumePercentage)
 
                 if LineLength < 24:
                     # Changing the color to green when the length is less than 60
