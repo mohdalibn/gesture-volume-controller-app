@@ -2,7 +2,7 @@
 # ![gesture-volume-controller-app](https://user-images.githubusercontent.com/95453430/159134380-a93ad113-28e9-4210-91cc-86e32f8ca53f.svg)
 
 <!-- Project Images -->
-![Gesture Volume Controller App](https://user-images.githubusercontent.com/95453430/159134472-f0b6be17-6c3c-4103-844d-6066c130fea1.png)
+![Gesture Volume Controller App (1)](https://user-images.githubusercontent.com/95453430/159134540-637d129d-fac1-4eb3-8929-2ad446dacebc.png)
 
 <!-- Project Description -->
 # ![project-description (9)](https://user-images.githubusercontent.com/95453430/159134386-25693e6a-4ddb-4f26-a035-4915a8c411ac.svg)
