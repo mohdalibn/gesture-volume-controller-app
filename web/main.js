@@ -1,7 +1,5 @@
 
 // Script to change the Volume Value
-
-
 const slider = document.querySelector("input");
 const value = document.querySelector(".volume-value");
 
@@ -18,8 +16,6 @@ function SetVolume(Vol){
     slider.value = Vol;
     value.textContent = slider.value;
 }
-
-
 
 
 
@@ -49,13 +45,24 @@ function OpenVideo(){
 }
 
 eel.expose(UpdateVideoScreen);
-function UpdateVideoScreen(Fps, Frame){
+function UpdateVideoScreen(Fps, Xpos1, Ypos1, Xpos2, Ypos2, Frame){
     ImageWindow.src = "data:image/jpeg;base64," + Frame;
 
-    // Converting the Numeric FPS into a String
-    var FPS = Fps.toString();
+    let Statistics = [Fps, Xpos1, Ypos1, Xpos2, Ypos2]
+    Statistics.forEach(element => {
+        element = element.toString();
+    });
+
+    // // Converting the Numeric FPS into a String
+    // var FPS = Fps.toString();
+
+
     // Updating the InnerHTML of the FPS counter text
-    document.querySelector('.fps').innerHTML = "FPS: " + FPS;
+    document.querySelector('.fps').innerHTML = "FPS: " + Fps;
+    document.querySelector('.xpos1').innerHTML = "XPOS1: " + Xpos1;
+    document.querySelector('.ypos1').innerHTML = "YPOS1: " + Ypos1;
+    document.querySelector('.xpos2').innerHTML = "XPOS2: " + Xpos2;
+    document.querySelector('.ypos2').innerHTML = "YPOS2: " + Ypos2;
 
 }
 
@@ -76,6 +83,9 @@ function CloseVideo(){
     // Setting the Display of the Webcam OFF Text to Block
     VideoText.style.display="block";
 
-    document.querySelector('.fps').innerHTML = "FPS: 0";
+}
 
+eel.expose(SetFPSZero);
+function SetFPSZero(){
+    document.querySelector('.fps').innerHTML = "FPS: 0";
 }

@@ -8,6 +8,7 @@
 """
 
 # Importing the required libraries for the project
+from codecs import xmlcharrefreplace_errors
 import HandTrackingLibrary as Htl
 from tkinter import Tk, messagebox
 import mediapipe as mp
@@ -50,6 +51,12 @@ SystemVolume = volume.GetMasterVolumeLevelScalar()
 SystemVolume = math.floor(SystemVolume * 100)
 # print("System Volume Level: " + str(SystemVolume))
 
+# Variables to store the xPos1, yPos1, xPos2, yPos2 values
+# center_x1 = 0
+# center_y1 = 0
+# center_x2 = 0
+# center_y2 = 0
+
 
 # This function updates the Display Volume according to the System Volume
 @eel.expose
@@ -80,6 +87,11 @@ class OpenWebcam(object):
 
             # Storing all the landmark positions of all the hand in a list
             LndmrkList = self.Tracker.Find_Landmark_Position(frame, draw=False)
+
+            center_x1 = 0
+            center_y1 = 0
+            center_x2 = 0
+            center_y2 = 0
 
             if len(LndmrkList) != 0:
                 # The center coords of both the thumb and the index finger
@@ -132,11 +144,11 @@ class OpenWebcam(object):
             FPS = 1 // (CurrTime - PrevTime)
             PrevTime = CurrTime
 
-            return FPS, jpegFrame.tobytes()
+            return FPS, center_x1, center_y1, center_x2, center_y2, jpegFrame.tobytes()
 
         else:
-            # Here, we return 0 FPS and None Frame
-            return 0, None
+            # Here, we return 0 FPS, 0 for all the coordinates, and None Frame
+            return 0, 0, 0, 0, 0, None
 
     # Method to Close the Webcam Video Feed
     def CloseVideo(self):
@@ -149,10 +161,10 @@ class OpenWebcam(object):
 # This function creates a generator for all the video frames
 def GenerateFrames(Webcam):
     while True:
-        fps, singleframe = Webcam.GetFrame()
+        fps, xpos1, ypos1, xpos2, ypos2, singleframe = Webcam.GetFrame()
 
         if singleframe != None:
-            yield fps, singleframe
+            yield fps, xpos1, ypos1, xpos2, ypos2, singleframe
 
         else:
             break
@@ -171,12 +183,12 @@ def DisplayVideo():
         # Calling the GenerateFrames() function
         VideoFrames = GenerateFrames(Webcam)
 
-        for Fps, SingleFrame in VideoFrames:
+        for Fps, Xpos1, Ypos1, Xpos2, Ypos2, SingleFrame in VideoFrames:
 
             # for all the single frames in video frames, we are converting the frames from Bytes to base64 Encoded String.
             frame = base64.b64encode(SingleFrame)
             frame = frame.decode("utf-8")
-            eel.UpdateVideoScreen(Fps, frame)()
+            eel.UpdateVideoScreen(Fps, Xpos1, Ypos1, Xpos2, Ypos2, frame)()
 
     else:
         # Displays text on the terminal when the Open Webcam button is spammed
@@ -194,6 +206,7 @@ def CloseWebcam():
         # Releasing the Webcam using OpenCV
         Webcam.CloseVideo()
         Webcam = None
+        eel.SetFPSZero()()
     else:
         # Displays text on the terminal when the Close Webcam button is spammed
         print("Do Not Spam The Button!")
