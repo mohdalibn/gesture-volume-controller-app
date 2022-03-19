@@ -294,6 +294,13 @@ body {
     color: #000000;
 }
 
+/* CSS for Github Button Wrapper */
+.gh-button-wrapper {
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+
 /* CSS For Github Button */
 .gh-button {
     position: absolute;
@@ -302,6 +309,7 @@ body {
     left: 707px;
     top: 614px;
     background: #000000;
+    border: none;
     border-radius: 20.0752px;
     display: flex;
     justify-content: center;
