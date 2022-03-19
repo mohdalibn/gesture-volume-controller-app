@@ -51,12 +51,6 @@ SystemVolume = volume.GetMasterVolumeLevelScalar()
 SystemVolume = math.floor(SystemVolume * 100)
 # print("System Volume Level: " + str(SystemVolume))
 
-# Variables to store the xPos1, yPos1, xPos2, yPos2 values
-# center_x1 = 0
-# center_y1 = 0
-# center_x2 = 0
-# center_y2 = 0
-
 
 # This function updates the Display Volume according to the System Volume
 @eel.expose
@@ -88,6 +82,7 @@ class OpenWebcam(object):
             # Storing all the landmark positions of all the hand in a list
             LndmrkList = self.Tracker.Find_Landmark_Position(frame, draw=False)
 
+            # Variables to store the center coordinates of the thumb and index fingers
             center_x1 = 0
             center_y1 = 0
             center_x2 = 0
@@ -124,12 +119,6 @@ class OpenWebcam(object):
                     center_x2 - center_x1, center_y2 - center_y1)
                 # print(LineLength)
                 # In my case, the avg minimum distance between the fingers was 24 and the avg maximum was 165
-
-                # Coverting the line length range into the volume range using numpy
-                Volume = np.interp(LineLength, [24, 165], [
-                                   MinVolume, MaxVolume])
-
-                # Sending the level of the volume to control it
 
                 # This volume convertion is for the percentage displays
                 VolumePercentage = np.interp(LineLength, [24, 165], [0, 100])
@@ -178,7 +167,7 @@ def GenerateFrames(Webcam):
             break
 
 
-# function that updates the Video Frames in the App
+# Function that updates the Video Frames in the App
 @eel.expose
 def DisplayVideo():
     global Webcam
@@ -202,9 +191,8 @@ def DisplayVideo():
         # Displays text on the terminal when the Open Webcam button is spammed
         print("Do Not Spam The Button!")
 
+
 # Function that closes the Webcam Video Stream
-
-
 @eel.expose
 def CloseWebcam():
     global Webcam
@@ -219,9 +207,8 @@ def CloseWebcam():
         # Displays text on the terminal when the Close Webcam button is spammed
         print("Do Not Spam The Button!")
 
+
 # This function Displays the Error Message to the User using a Tkinter Window
-
-
 def ThrowError(ErrorTitle, ErrorMsg):
     # This function will initialize a tkinter window to display the error message incase the eel App fails to load
     root = Tk()
