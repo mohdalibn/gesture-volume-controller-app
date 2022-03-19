@@ -22,7 +22,6 @@ import os
 import time
 
 # library and its flies for controlling the volume
-import pycaw
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
@@ -33,27 +32,6 @@ interface = devices.Activate(
     IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
 
-SysVol = math.ceil(volume.GetMasterVolumeLevel())
-print(SysVol)
-
-OldMin = -65
-OldMax = 0
-NewMin = 0
-NewMax = 100
-OldValue = -7
-
-OldRange = (OldMax - OldMin)
-NewRange = (NewMax - NewMin)
-NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
-NewValue = math.floor(NewValue)
-print(NewValue)
-
-
-@eel.expose
-def SendVol():
-    global NewValue
-    eel.SetVolume(NewValue)()
-
 
 # Default Webcam Variable Value to Start the App
 Webcam = None
@@ -62,9 +40,24 @@ Webcam = None
 CurrTime = 0
 PrevTime = 0
 
+# Storing the min and max volume levels
+MinVolume = volume.GetVolumeRange()[0]
+MaxVolume = volume.GetVolumeRange()[1]
+Volume = 0  # This is the initial declaration of the variable to avoid the error of not being defined
+
+# Getting the System Volume Level Using Pycaw
+SystemVolume = volume.GetMasterVolumeLevelScalar()
+SystemVolume = math.floor(SystemVolume * 100)
+# print("System Volume Level: " + str(SystemVolume))
+
+
+# This function updates the Display Volume according to the System Volume
+@eel.expose
+def SendVol():
+    eel.SetVolume(SystemVolume)()
+
+
 # Creating a class for the OpenCV Webcam Input
-
-
 class OpenWebcam(object):
     def __init__(self):  # Init Method
         # Getting the User's Webcam Video Input Using OpenCV
@@ -113,6 +106,24 @@ class OpenWebcam(object):
                 # Drawing a circle in the center of the line
                 cv2.circle(frame, (LineCenter_x, LineCenter_y),
                            8, (255, 0, 0), cv2.FILLED)
+
+                # Calculating the length of the line
+                LineLength = math.hypot(
+                    center_x2 - center_x1, center_y2 - center_y1)
+                print(LineLength)
+                # In my case, the avg minimum distance between the fingers was 24 and the avg maximum was 165
+
+                # Coverting the line length range into the volume range using numpy
+                Volume = np.interp(LineLength, [24, 165], [
+                                   MinVolume, MaxVolume])
+
+                # Sending the level of the volume to control it
+                volume.SetMasterVolumeLevel(Volume, None)
+
+                if LineLength < 24:
+                    # Changing the color to green when the length is less than 60
+                    cv2.circle(frame, (LineCenter_x, LineCenter_y),
+                               8, (0, 255, 0), cv2.FILLED)
 
             _, jpegFrame = cv2.imencode('.jpg', frame)
 
