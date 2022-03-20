@@ -20,8 +20,6 @@ class HandTracker():
             self.mode, self.MaxHands, self.modelComplex, self.DetectionConfidence, self.TrackingConfidence)
         self.mpDraw = mp.solutions.drawing_utils
 
-        self.LandmarkList = []  # this list will store all the landmarks position
-
         # Creating a list of all the finger tip indices
         self.FingerTipIndices = [4, 8, 12, 16, 20]
 
@@ -46,6 +44,15 @@ class HandTracker():
 
     def Find_Landmark_Position(self, frame, HandNumber=0, draw=True):
 
+        self.LandmarkList = []  # this list will store all the landmarks position
+
+        # These lists are going to store all the X and Y Positions
+        XCoordListAll = []
+        YCoordListAll = []
+
+        # Variable to store the coordinate values of the bounding box
+        BoundingBox = []
+
         # executes if there is a detection
         if self.results.multi_hand_landmarks:
             # picks the specified hand's landmark
@@ -54,26 +61,42 @@ class HandTracker():
         # id/index corresponding to the landmark
             for id, landmark in enumerate(ThisHand.landmark):
                 # the landmark variable stores the ratio of the image. So, we will multiply the image with the width and height to get the pixel locations
-                height, width, channels = frame.shape
+                height, width, _ = frame.shape
 
                 # gets the pixel locations of the all the landmarks
                 center_x, center_y = int(
                     landmark.x*width), int(landmark.y*height)
 
+                # Appending the X and Y values to the above 2 lists
+                XCoordListAll.append(center_x)
+                YCoordListAll.append(center_y)
+
                 # Appending the landmarks to the landmark's list
                 self.LandmarkList.append([id, center_x, center_y])
 
-                if draw:
-                    # Drawing a circle in the pixel location of the first landmark
-                    if id == 4 or id == 8:
-                        cv2.circle(frame, (center_x, center_y),
-                                   20, (255, 0, 255), cv2.FILLED)
+                # if draw:
+                #     # Drawing a circle in the pixel location of the first landmark
+                #     if id == 4 or id == 8:
+                #         cv2.circle(frame, (center_x, center_y),
+                #                    20, (255, 0, 255), cv2.FILLED)
 
-        return self.LandmarkList
+            # Getting the Mininum & Maximum X and Y Coordinates to Draw the Bounding Box Around a Detected Hand
+            MinXPos, MaxXPos, MinYPos, MaxYPos = min(XCoordListAll), max(
+                XCoordListAll), min(YCoordListAll), max(YCoordListAll)
+
+            BoundingBox = MinXPos, MinYPos, MaxXPos, MaxYPos
+
+            # Draws the Bounding Box if the draw flag is set to true. Since the Points are exactly on the fingers, we add & sub a constant value of 20 so that there's a little more gap
+            if draw:
+                cv2.rectangle(frame, (BoundingBox[0] - 20, BoundingBox[1] - 20), (
+                    BoundingBox[2] + 20, BoundingBox[3] + 20), (167, 99, 246), 2)
+
+        return self.LandmarkList, BoundingBox
 
     # This Method returns the list of the fingers that are UP
 
     def Get_Fingers_Up(self):
+        # Creating a list to store all the fingers that are up
         FingersUp = []
 
         # This statement acts as a fail check when the Landmark List is empty
@@ -108,8 +131,8 @@ def HandTracking():
     video.set(4, 480)
 
     # Using the Ip Webcam app on the phone for better camera feed
-    address = 'http://192.168.2.101:8080/video'
-    video.open(address)
+    # address = 'http://192.168.2.101:8080/video'
+    # video.open(address)
 
     # Variable to store the current time and the previous time
     PrevTime = 0
@@ -123,7 +146,7 @@ def HandTracking():
         # calling the function of the class
         frame = Tracker.Detect_hands(frame)
 
-        LndmrkList = Tracker.Find_Landmark_Position(frame)
+        LndmrkList, BndBox = Tracker.Find_Landmark_Position(frame)
 
         # Only executes is the list isn't empty
         # if len(LndmrkList) != 0:
