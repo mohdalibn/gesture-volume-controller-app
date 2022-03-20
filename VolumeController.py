@@ -52,6 +52,9 @@ BarVolume = 400  # Set to 900 according to the drawing in the code down below
 
 VolumePercentage = 0
 
+# Variable to store the Bounding Box Area
+BoundingArea = 0
+
 run = True
 while run:
     success, frame = video.read()
@@ -59,12 +62,18 @@ while run:
     # Detecting the presence of a hand
     frame = Tracker.Detect_hands(frame)
 
-    # Storing all the landmark positions of all the hand in a list
-    LndmrkList = Tracker.Find_Landmark_Position(frame, draw=False)
+    # Storing all the landmark positions of all the hand in a list and the bounding box coordinates
+    LndmrkList, BndBox = Tracker.Find_Landmark_Position(frame, draw=True)
 
     if len(LndmrkList) != 0:
         # the landmark indices of the thumb and the index finger are 4, 8 respectively
         #print(LndmrkList[4], LndmrkList[8])
+
+        # Normalizing the size of the hand to maintain a uniform calculation of the line length at different hand distance from the camera
+        BndBoxWidth = BndBox[2] - BndBox[0]
+        BndBoxHeight = BndBox[3] - BndBox[1]
+        # Calculating the Area
+        BoundingArea = BndBoxWidth * BndBoxHeight
 
         # The center coords of both the thumb and the index finger
         center_x1 = LndmrkList[4][1]
@@ -91,7 +100,7 @@ while run:
 
         # Calculating the length of the line
         LineLength = math.hypot(center_x2 - center_x1, center_y2 - center_y1)
-        print(LineLength)
+        # print(LineLength)
         # In my case, the avg minimum distance between the fingers was 24 and the avg maximum was 165
 
         # Coverting the line length range into the volume range using numpy
