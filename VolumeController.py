@@ -73,53 +73,41 @@ while run:
         BndBoxWidth = BndBox[2] - BndBox[0]
         BndBoxHeight = BndBox[3] - BndBox[1]
         # Calculating the Area
-        BoundingArea = BndBoxWidth * BndBoxHeight
+        BoundingArea = (BndBoxWidth * BndBoxHeight) // 100
+        print(BoundingArea)
 
-        # The center coords of both the thumb and the index finger
-        center_x1 = LndmrkList[4][1]
-        center_y1 = LndmrkList[4][2]
+        if BoundingArea > 150 and BoundingArea < 1000:
 
-        center_x2 = LndmrkList[8][1]
-        center_y2 = LndmrkList[8][2]
+            frame, LineLength, CenterList = Tracker.Get_Finger_Distance(
+                frame, 4, 8, draw=True)
 
-        # Calculating the center of the line between the fingers
-        LineCenter_x = (center_x1 + center_x2) // 2
-        LineCenter_y = (center_y1 + center_y2) // 2
+            LineCenter_x = CenterList[4]
+            LineCenter_y = CenterList[5]
 
-        # Drawing the filled circles around the center of the tips of the fingers
-        cv2.circle(frame, (center_x1, center_y1), 8, (255, 0, 0), cv2.FILLED)
-        cv2.circle(frame, (center_x2, center_y2), 8, (255, 0, 0), cv2.FILLED)
+            # In my case, the avg minimum distance between the fingers was 24 and the avg maximum was 165
 
-        # Drawing a line between the fingers
-        cv2.line(frame, (center_x1, center_y1),
-                 (center_x2, center_y2), (255, 0, 0), 3)
+            # Coverting the line length range into the volume range using numpy
+            # Volume = np.interp(LineLength, [24, 165], [MinVolume, MaxVolume])
+            # print(Volume) # printing the volume level
 
-        # Drawing a circle in the center of the line
-        cv2.circle(frame, (LineCenter_x, LineCenter_y),
-                   8, (255, 0, 0), cv2.FILLED)
+            # This Volume convertion is for the bar so that it doesn't draw off the screen
+            BarVolume = np.interp(LineLength, [24, 165], [400, 150])
 
-        # Calculating the length of the line
-        LineLength = math.hypot(center_x2 - center_x1, center_y2 - center_y1)
-        # print(LineLength)
-        # In my case, the avg minimum distance between the fingers was 24 and the avg maximum was 165
+            # This volume convertion is for the percentage displays
+            VolumePercentage = np.interp(LineLength, [24, 165], [0, 100])
 
-        # Coverting the line length range into the volume range using numpy
-        Volume = np.interp(LineLength, [24, 165], [MinVolume, MaxVolume])
-        # print(Volume) # printing the volume level
+            # A constant increment volume value by "X" to smooth the volume increasing and decreasing experience.
+            VolSmoothness = 5
+            VolumePercentage = round(
+                VolumePercentage / VolSmoothness) * VolSmoothness
 
-        # This Volume convertion is for the bar so that it doesn't draw off the screen
-        BarVolume = np.interp(LineLength, [24, 165], [400, 150])
+            # Sending the level of the volume to control it
+            volume.SetMasterVolumeLevelScalar(VolumePercentage / 100, None)
 
-        # This volume convertion is for the percentage displays
-        VolumePercentage = np.interp(LineLength, [24, 165], [0, 100])
-
-        # Sending the level of the volume to control it
-        volume.SetMasterVolumeLevel(Volume, None)
-
-        if LineLength < 24:
-            # Changing the color to green when the length is less than 60
-            cv2.circle(frame, (LineCenter_x, LineCenter_y),
-                       8, (0, 255, 0), cv2.FILLED)
+            if LineLength < 24:
+                # Changing the color to green when the length is less than 60
+                cv2.circle(frame, (LineCenter_x, LineCenter_y),
+                           8, (0, 255, 0), cv2.FILLED)
 
     # CODE FOR DISPLAYING A VOLUME LEVEL BAR ON THE SCREEN BELOW
 
