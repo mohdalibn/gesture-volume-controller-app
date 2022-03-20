@@ -8,7 +8,6 @@
 """
 
 # Importing the required libraries for the project
-from codecs import xmlcharrefreplace_errors
 import HandTrackingLibrary as Htl
 from tkinter import Tk, messagebox
 import mediapipe as mp
