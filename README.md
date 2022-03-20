@@ -22,3 +22,48 @@
 
 <!-- How To Use Project -->
 # ![how-to-use-project (4)](https://user-images.githubusercontent.com/95453430/159134390-d77c1d1c-61bc-4732-b4e6-094a9d39b48c.svg)
+
+**Install the following Python libraries in your Virtual Environment using PIP**.
+
+*Note: The library names are **CASE-SENSITIVE** for PIP installations below. Make sure your type them correctly.*
+
+*Install OpenCV for Python*
+```Python
+pip install opencv-python
+```
+
+*Install OpenCV Contrib for Python*
+```Python
+pip install opencv-contrib-python
+```
+
+*Install Mediapipe for Python*
+```Python
+pip install mediapipe
+```
+
+*Install EEL for Python*
+```Python
+pip install eel
+```
+
+*Install Numpy for Python*
+```Python
+pip install numpy
+```
+
+*Install PyCaw for Python*
+```Python
+pip install pycaw
+```
+
+Download a copy of this repository onto your local machine and extract it into a suitable folder.
+- Create a Virtual Environment in that folder.
+- Install all the required Python libraries mentioned above.
+- Open a Command Prompt/Terminal in the **Root Directory** of the Project.
+- Type the following command in the terminal to start an instance of the EEL App.
+```Python
+python GestVolContApp.py
+```
+
+- Enjoying using the App!
