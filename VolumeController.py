@@ -44,7 +44,7 @@ CurrTime = 0
 PrevTime = 0
 
 # Creating an object from the Hand Tracking class with a detection confidence of 70%
-Tracker = Htl.HandTracker(DetectionConfidence=0.7)
+Tracker = Htl.HandTracker(DetectionConfidence=0.7, MaxHands=1)
 
 Volume = 0  # This is the initial declaration of the variable to avoid the error of not being defined
 
@@ -97,7 +97,7 @@ while run:
             VolumePercentage = np.interp(LineLength, [24, 165], [0, 100])
 
             # A constant increment volume value by "X" to smooth the volume increasing and decreasing experience.
-            VolSmoothness = 5
+            VolSmoothness = 7
             VolumePercentage = round(
                 VolumePercentage / VolSmoothness) * VolSmoothness
 
