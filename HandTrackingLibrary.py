@@ -93,6 +93,12 @@ class HandTracker():
 
             return FingersUp
 
+        else:
+            print("No Landmarks Detected! The landmark list is empty.")
+
+            # This returns an empty list
+            return []
+
 
 def HandTracking():
 
