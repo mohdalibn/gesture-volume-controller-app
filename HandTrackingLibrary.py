@@ -20,6 +20,11 @@ class HandTracker():
             self.mode, self.MaxHands, self.modelComplex, self.DetectionConfidence, self.TrackingConfidence)
         self.mpDraw = mp.solutions.drawing_utils
 
+        self.LandmarkList = []  # this list will store all the landmarks position
+
+        # Creating a list of all the finger tip indices
+        self.FingerTipIndices = [4, 8, 12, 16, 20]
+
     def Detect_hands(self, frame, draw=True):
 
         # Passing the rgb frame to the hand object since it only uses rgb format
@@ -41,8 +46,6 @@ class HandTracker():
 
     def Find_Landmark_Position(self, frame, HandNumber=0, draw=True):
 
-        LandmarkList = []  # this list will store all the landmarks position
-
         # executes if there is a detection
         if self.results.multi_hand_landmarks:
             # picks the specified hand's landmark
@@ -58,7 +61,7 @@ class HandTracker():
                     landmark.x*width), int(landmark.y*height)
 
                 # Appending the landmarks to the landmark's list
-                LandmarkList.append([id, center_x, center_y])
+                self.LandmarkList.append([id, center_x, center_y])
 
                 if draw:
                     # Drawing a circle in the pixel location of the first landmark
@@ -66,7 +69,29 @@ class HandTracker():
                         cv2.circle(frame, (center_x, center_y),
                                    20, (255, 0, 255), cv2.FILLED)
 
-        return LandmarkList
+        return self.LandmarkList
+
+    # This Method returns the list of the fingers that are UP
+
+    def Get_Fingers_Up(self):
+        FingersUp = []
+
+        # This statement acts as a fail check when the Landmark List is empty
+        if len(self.LandmarkList) != 0:
+
+            if self.LandmarkList[self.FingerTipIndices[0]][1] < self.LandmarkList[self.FingerTipIndices[0] - 1][1]:
+                FingersUp.append(1)
+            else:
+                FingersUp.append(0)
+
+            # We use FingerTipIndices[index] - 2 to get the value 2 indices below the tip.
+            for index in range(1, 5):
+                if self.LandmarkList[self.FingerTipIndices[index]][2] < self.LandmarkList[self.FingerTipIndices[index] - 2][2]:
+                    FingersUp.append(1)
+                else:
+                    FingersUp.append(0)
+
+            return FingersUp
 
 
 def HandTracking():
