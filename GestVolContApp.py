@@ -100,7 +100,7 @@ class OpenWebcam(object):
                 # Calculating the Area
                 self.BoundingArea = (BndBoxWidth * BndBoxHeight) // 100
 
-                if self.BoundingArea > 150 and self.BoundingArea < 1000:
+                if self.BoundingArea > 250 and self.BoundingArea < 1000:
 
                     frame, LineLength, CenterList = self.Tracker.Get_Finger_Distance(
                         frame, 4, 8, draw=True)
@@ -132,6 +132,16 @@ class OpenWebcam(object):
                         # Changing the color to green when the length is less than 60
                         cv2.circle(frame, (LineCenter_x, LineCenter_y),
                                    8, (167, 99, 246), cv2.FILLED)
+
+                # Displays Text if the User's Hand is smaller than the Range defined above
+                elif self.BoundingArea < 250:
+                    cv2.putText(frame, "Hand is too far from the camera!",
+                                (45, 50), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2, cv2.LINE_AA)
+
+                # Displays Text if the User's Hand is larger than the Range defined above
+                elif self.BoundingArea > 1000:
+                    cv2.putText(frame, "Hand is too close to the camera!",
+                                (45, 50), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2, cv2.LINE_AA)
 
             _, jpegFrame = cv2.imencode('.jpg', frame)
 
