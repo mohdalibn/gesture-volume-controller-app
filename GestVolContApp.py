@@ -68,7 +68,7 @@ class OpenWebcam(object):
         self.VidHeight = self.CamVideo.set(4, 480)
 
         # Creating an object from the Hand Tracking class with a detection confidence of 70%
-        self.Tracker = Htl.HandTracker(DetectionConfidence=0.7)
+        self.Tracker = Htl.HandTracker(DetectionConfidence=0.7, MaxHands=1)
 
     def GetFrame(self):  # Method to get the individual frames of the Video
         global CurrTime, PrevTime
