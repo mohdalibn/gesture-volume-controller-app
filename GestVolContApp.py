@@ -114,6 +114,11 @@ class OpenWebcam(object):
                     self.VolumePercentage = np.interp(
                         LineLength, [24, 165], [0, 100])
 
+                    # A constant increment volume value by "10" to smooth the volume increasing and decreasing experience.
+                    VolSmoothness = 10
+                    VolumePercentage = round(
+                        VolumePercentage / VolSmoothness) * VolSmoothness
+
                     # Sets the Main System Volume Level According the Length of the Line between the thumb and the index finger
                     volume.SetMasterVolumeLevelScalar(
                         self.VolumePercentage / 100, None)
