@@ -26,7 +26,6 @@ from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
-from VolumeController import VolumePercentage
 
 # Initializations from the pycaw library
 devices = AudioUtilities.GetSpeakers()
@@ -73,7 +72,7 @@ class OpenWebcam(object):
         self.Tracker = Htl.HandTracker(DetectionConfidence=0.7, MaxHands=1)
 
         self.VolumePercentage = 0  # Variable to store the Volume Percentage Value
-        self.BoundingBoxArea = 0  # Variable to store the Bounding Box Area
+        self.BoundingArea = 0  # Variable to store the Bounding Box Area
 
     def GetFrame(self):  # Method to get the individual frames of the Video
         global CurrTime, PrevTime
@@ -99,10 +98,9 @@ class OpenWebcam(object):
                 BndBoxWidth = BndBox[2] - BndBox[0]
                 BndBoxHeight = BndBox[3] - BndBox[1]
                 # Calculating the Area
-                BoundingArea = (BndBoxWidth * BndBoxHeight) // 100
-                print(BndBoxWidth, BndBoxHeight, BoundingArea)
+                self.BoundingArea = (BndBoxWidth * BndBoxHeight) // 100
 
-                if BoundingArea > 150 and BoundingArea < 1000:
+                if self.BoundingArea > 150 and self.BoundingArea < 1000:
 
                     frame, LineLength, CenterList = self.Tracker.Get_Finger_Distance(
                         frame, 4, 8, draw=True)
@@ -115,9 +113,9 @@ class OpenWebcam(object):
                         LineLength, [24, 165], [0, 100])
 
                     # A constant increment volume value by "10" to smooth the volume increasing and decreasing experience.
-                    VolSmoothness = 10
-                    VolumePercentage = round(
-                        VolumePercentage / VolSmoothness) * VolSmoothness
+                    VolSmoothness = 5
+                    self.VolumePercentage = round(
+                        self.VolumePercentage / VolSmoothness) * VolSmoothness
 
                     # Sets the Main System Volume Level According the Length of the Line between the thumb and the index finger
                     volume.SetMasterVolumeLevelScalar(
