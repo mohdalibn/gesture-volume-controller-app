@@ -74,7 +74,7 @@ while run:
         BndBoxHeight = BndBox[3] - BndBox[1]
         # Calculating the Area
         BoundingArea = (BndBoxWidth * BndBoxHeight) // 100
-        print(BoundingArea)
+        print(BndBoxWidth, BndBoxHeight, BoundingArea)
 
         if BoundingArea > 150 and BoundingArea < 1000:
 
@@ -83,6 +83,8 @@ while run:
 
             LineCenter_x = CenterList[4]
             LineCenter_y = CenterList[5]
+
+            print(LineLength)
 
             # In my case, the avg minimum distance between the fingers was 24 and the avg maximum was 165
 
