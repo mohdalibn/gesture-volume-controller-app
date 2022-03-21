@@ -94,52 +94,37 @@ class OpenWebcam(object):
             center_y2 = 0
 
             if len(LndmrkList) != 0:
-                # The center coords of both the thumb and the index finger
-                center_x1 = LndmrkList[4][1]
-                center_y1 = LndmrkList[4][2]
 
-                center_x2 = LndmrkList[8][1]
-                center_y2 = LndmrkList[8][2]
+                # Normalizing the size of the hand to maintain a uniform calculation of the line length at different hand distance from the camera
+                BndBoxWidth = BndBox[2] - BndBox[0]
+                BndBoxHeight = BndBox[3] - BndBox[1]
+                # Calculating the Area
+                BoundingArea = (BndBoxWidth * BndBoxHeight) // 100
+                print(BndBoxWidth, BndBoxHeight, BoundingArea)
 
-                # Calculating the center of the line between the fingers
-                LineCenter_x = (center_x1 + center_x2) // 2
-                LineCenter_y = (center_y1 + center_y2) // 2
+                if BoundingArea > 150 and BoundingArea < 1000:
 
-                # Drawing the filled circles around the center of the tips of the fingers
-                cv2.circle(frame, (center_x1, center_y1),
-                           8, (255, 0, 0), cv2.FILLED)
-                cv2.circle(frame, (center_x2, center_y2),
-                           8, (255, 0, 0), cv2.FILLED)
+                    frame, LineLength, CenterList = self.Tracker.Get_Finger_Distance(
+                        frame, 4, 8, draw=True)
 
-                # Drawing a line between the fingers
-                cv2.line(frame, (center_x1, center_y1),
-                         (center_x2, center_y2), (255, 0, 0), 3)
+                    LineCenter_x = CenterList[4]
+                    LineCenter_y = CenterList[5]
 
-                # Drawing a circle in the center of the line
-                cv2.circle(frame, (LineCenter_x, LineCenter_y),
-                           8, (255, 0, 0), cv2.FILLED)
+                    # This volume convertion is for the percentage displays
+                    self.VolumePercentage = np.interp(
+                        LineLength, [24, 165], [0, 100])
 
-                # Calculating the length of the line
-                LineLength = math.hypot(
-                    center_x2 - center_x1, center_y2 - center_y1)
-                # print(LineLength)
-                # In my case, the avg minimum distance between the fingers was 24 and the avg maximum was 165
+                    # Sets the Main System Volume Level According the Length of the Line between the thumb and the index finger
+                    volume.SetMasterVolumeLevelScalar(
+                        self.VolumePercentage / 100, None)
 
-                # This volume convertion is for the percentage displays
-                self.VolumePercentage = np.interp(
-                    LineLength, [24, 165], [0, 100])
+                    # Calling the SendVol Function to Updated the Volume Bar Indicator on the App
+                    SendVol(VolValue=self.VolumePercentage)
 
-                # Sets the Main System Volume Level According the Length of the Line between the thumb and the index finger
-                volume.SetMasterVolumeLevelScalar(
-                    self.VolumePercentage / 100, None)
-
-                # Calling the SendVol Function to Updated the Volume Bar Indicator on the App
-                SendVol(VolValue=self.VolumePercentage)
-
-                if LineLength < 24:
-                    # Changing the color to green when the length is less than 60
-                    cv2.circle(frame, (LineCenter_x, LineCenter_y),
-                               8, (167, 99, 246), cv2.FILLED)
+                    if LineLength < 24:
+                        # Changing the color to green when the length is less than 60
+                        cv2.circle(frame, (LineCenter_x, LineCenter_y),
+                                   8, (167, 99, 246), cv2.FILLED)
 
             _, jpegFrame = cv2.imencode('.jpg', frame)
 
