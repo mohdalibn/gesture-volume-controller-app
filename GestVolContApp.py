@@ -105,6 +105,10 @@ class OpenWebcam(object):
                     frame, LineLength, CenterList = self.Tracker.Get_Finger_Distance(
                         frame, 4, 8, draw=True)
 
+                    # Getting the Center Coordinates of the Thumb & the Index Fingers
+                    center_x1, center_y1 = CenterList[0], CenterList[1]
+                    center_x2, center_y2 = CenterList[2], CenterList[3]
+
                     LineCenter_x = CenterList[4]
                     LineCenter_y = CenterList[5]
 
