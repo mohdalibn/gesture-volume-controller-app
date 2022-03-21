@@ -26,6 +26,8 @@ from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
+from VolumeController import VolumePercentage
+
 # Initializations from the pycaw library
 devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(
@@ -70,6 +72,9 @@ class OpenWebcam(object):
         # Creating an object from the Hand Tracking class with a detection confidence of 70%
         self.Tracker = Htl.HandTracker(DetectionConfidence=0.7, MaxHands=1)
 
+        self.VolumePercentage = 0  # Variable to store the Volume Percentage Value
+        self.BoundingBoxArea = 0  # Variable to store the Bounding Box Area
+
     def GetFrame(self):  # Method to get the individual frames of the Video
         global CurrTime, PrevTime
         success, frame = self.CamVideo.read()
@@ -79,7 +84,8 @@ class OpenWebcam(object):
             frame = self.Tracker.Detect_hands(frame)
 
             # Storing all the landmark positions of all the hand in a list
-            LndmrkList = self.Tracker.Find_Landmark_Position(frame, draw=False)
+            LndmrkList, BndBox = self.Tracker.Find_Landmark_Position(
+                frame, draw=True)
 
             # Variables to store the center coordinates of the thumb and index fingers
             center_x1 = 0
@@ -120,18 +126,20 @@ class OpenWebcam(object):
                 # In my case, the avg minimum distance between the fingers was 24 and the avg maximum was 165
 
                 # This volume convertion is for the percentage displays
-                VolumePercentage = np.interp(LineLength, [24, 165], [0, 100])
+                self.VolumePercentage = np.interp(
+                    LineLength, [24, 165], [0, 100])
 
                 # Sets the Main System Volume Level According the Length of the Line between the thumb and the index finger
-                volume.SetMasterVolumeLevelScalar(VolumePercentage / 100, None)
+                volume.SetMasterVolumeLevelScalar(
+                    self.VolumePercentage / 100, None)
 
                 # Calling the SendVol Function to Updated the Volume Bar Indicator on the App
-                SendVol(VolValue=VolumePercentage)
+                SendVol(VolValue=self.VolumePercentage)
 
                 if LineLength < 24:
                     # Changing the color to green when the length is less than 60
                     cv2.circle(frame, (LineCenter_x, LineCenter_y),
-                               8, (0, 255, 0), cv2.FILLED)
+                               8, (167, 99, 246), cv2.FILLED)
 
             _, jpegFrame = cv2.imencode('.jpg', frame)
 
