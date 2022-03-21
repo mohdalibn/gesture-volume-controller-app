@@ -89,8 +89,42 @@ class HandTracker():
 
             # Draws the Bounding Box if the draw flag is set to true. Since the Points are exactly on the fingers, we add & sub a constant value of 20 so that there's a little more gap
             if draw:
+
+                # Variables to store the BGR Color Code for the drawings
+                BGRColor0 = (167, 99, 246)
+                BGRColor = (0, 0, 0)
+
+                # Rectangle Around The Detected Hand
                 cv2.rectangle(frame, (BoundingBox[0] - 20, BoundingBox[1] - 20), (
-                    BoundingBox[2] + 20, BoundingBox[3] + 20), (167, 99, 246), 2)
+                    BoundingBox[2] + 20, BoundingBox[3] + 20), BGRColor0, 2)
+
+                # Top Left Corner Lines
+                cv2.line(frame, (BoundingBox[0] - 20, BoundingBox[1] - 20),
+                         (BoundingBox[0] - 20, BoundingBox[1] + 20), BGRColor, 5)
+
+                cv2.line(frame, (BoundingBox[0] - 20, BoundingBox[1] - 20),
+                         (BoundingBox[0] + 20, BoundingBox[1] - 20), BGRColor, 5)
+
+                # Top Right Corner Lines
+                cv2.line(frame, (BoundingBox[2] + 20, BoundingBox[1] - 20),
+                         (BoundingBox[2] + 20, BoundingBox[1] + 20), BGRColor, 5)
+
+                cv2.line(frame, (BoundingBox[2] - 20, BoundingBox[1] - 20),
+                         (BoundingBox[2] + 20, BoundingBox[1] - 20), BGRColor, 5)
+
+                # Bottom Left Corner Lines
+                cv2.line(frame, (BoundingBox[0] - 20, BoundingBox[3] + 20),
+                         (BoundingBox[0] - 20, BoundingBox[3] - 20), BGRColor, 5)
+
+                cv2.line(frame, (BoundingBox[0] - 20, BoundingBox[3] + 20),
+                         (BoundingBox[0] + 20, BoundingBox[3] + 20), BGRColor, 5)
+
+                # Bottom Right Corner Lines
+                cv2.line(frame, (BoundingBox[2] + 20, BoundingBox[3] + 20),
+                         (BoundingBox[2] + 20, BoundingBox[3] - 20), BGRColor, 5)
+
+                cv2.line(frame, (BoundingBox[2] + 20, BoundingBox[3] + 20),
+                         (BoundingBox[2] - 20, BoundingBox[3] + 20), BGRColor, 5)
 
         return self.LandmarkList, BoundingBox
 
