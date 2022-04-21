@@ -68,4 +68,4 @@ Download a copy of this repository onto your local machine and extract it into a
 python GestVolContApp.py
 ```
 
-- Enjoying using the App!
+- Enjoy using the App!
